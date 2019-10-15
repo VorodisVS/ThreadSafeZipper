@@ -1,4 +1,4 @@
-﻿namespace MultiThreadZip.BlockActors
+﻿namespace Common
 {
     using System.IO;
     using System.IO.Compression;
@@ -14,7 +14,7 @@
                 using (var compressionStream = new GZipStream(targetStream, CompressionMode.Compress, true))
                 {
                     compressionStream.Write(src.Data, 0, src.Count);
-                }
+                }   
 
                 ArchiverHelper.GetHeaderWithLength(targetStream, trg);
             }

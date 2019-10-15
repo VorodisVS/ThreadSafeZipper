@@ -2,10 +2,7 @@ namespace Tests
 {
     using System;
     using System.IO;
-
-    using MultiThreadZip;
-    using MultiThreadZip.BlockActors;
-
+    using Common;
     using NUnit.Framework;
 
     public class DataBlockTests

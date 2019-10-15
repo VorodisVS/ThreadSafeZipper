@@ -1,22 +1,17 @@
 ﻿namespace MultiThreadZip.Workers
 {
-    using BlockActors;
+    using Common;
+    using MultiThreadZip.SyncObjects;
 
-    public class ZipWorker
+    public class ZipWorker :IWorker
     {
-        #region Fields
-
-        private readonly string _srcFilePath;
-        private readonly string _trgFilePath;
-
-        #endregion
+        private IBlockProvider _blockProvider;
 
         #region Constructors
 
-        public ZipWorker(string srcFilePath, string trgFilePath)
+        public ZipWorker(IBlockProvider blockProvider)
         {
-            _srcFilePath = srcFilePath;
-            _trgFilePath = trgFilePath;
+            _blockProvider = blockProvider;
         }
 
         #endregion
@@ -25,23 +20,8 @@
 
         public void Work(int blockNumber)
         {
-            var blockReader = new BlockReader(_srcFilePath);
-            var blockArchiver = new BlockArchiver();
-            var blockWriter = new BlockWriter(_trgFilePath);
-
-            var readBlock = new Datablock
-            {
-                Data = new byte[1100000],
-                Count = 1000000
-            };
-            var writeBlock = new Datablock
-            {
-                Data = new byte[1100000]
-            };
-
-            blockReader.Read(readBlock, 0, 1000000);
-            blockArchiver.Compress(readBlock, writeBlock);
-            blockWriter.Write(writeBlock, 0);
+            BlockArchiver ar = new BlockArchiver();
+          
         }
 
         #endregion

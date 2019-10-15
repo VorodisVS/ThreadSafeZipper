@@ -1,4 +1,4 @@
-﻿namespace MultiThreadZip
+﻿namespace Common
 {
     using System;
     using System.IO;

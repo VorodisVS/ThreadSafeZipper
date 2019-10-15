@@ -1,4 +1,4 @@
-﻿namespace MultiThreadZip.BlockActors
+﻿namespace Common
 {
     using System.IO;
     using System.IO.Compression;

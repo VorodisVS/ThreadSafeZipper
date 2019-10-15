@@ -1,4 +1,4 @@
-﻿namespace MultiThreadZip.BlockActors
+﻿namespace Common
 {
     using System.IO;
 
@@ -22,17 +22,16 @@
         #region Methods
 
         public bool Read(Datablock block, long startPosition, int count)
-        {
+        {            
             using (FileStream fstream = File.OpenRead(_filepath))
             {
                 using (var wr = new BinaryReader(fstream))
                 {
                     wr.BaseStream.Position = startPosition;
-                    wr.Read(block.Data, 0, count);
+                    int realCount = wr.Read(block.Data, 0, count);
+                    block.Count = realCount;
                 }
-            }
-
-            block.Count = count;
+            }            
             return true;
         }
 

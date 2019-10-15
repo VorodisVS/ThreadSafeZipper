@@ -1,6 +1,6 @@
 ﻿namespace Tests
 {
-    using MultiThreadZip;
+    using Common;
     using MultiThreadZip.SyncObjects;
 
     using NUnit.Framework;

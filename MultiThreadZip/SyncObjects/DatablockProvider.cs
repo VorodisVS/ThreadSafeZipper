@@ -1,6 +1,8 @@
-﻿namespace MultiThreadZip.SyncObjects
+﻿using Common;
+
+namespace MultiThreadZip.SyncObjects
 {
-    public class DatablockProvider
+    public class DatablockProvider : IBlockProvider
     {
         #region Constants
 
@@ -37,7 +39,7 @@
 
         private Datablock CreateNewBlock()
         {
-            return new Datablock
+            return new Datablock(1)
             {
                 Data = new byte[BLOCK_SIZE]
             };
