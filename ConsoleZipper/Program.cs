@@ -26,28 +26,30 @@ namespace ConsoleZipper
             Zipper zipper = new Zipper();
 
             Queue<Datablock> readQueue = new Queue<Datablock>();
-            Queue<Datablock> writeQueue = new Queue<Datablock>();
+            SortedDictionary<int, Datablock> nonWriteDictionary = new SortedDictionary<int, Datablock>();
 
             Thread[] threads = new Thread[3];
 
-            Thread writerThread = new Thread(() => { 
-
+            Thread writerThread = new Thread(() =>
+            {
+               
             });
 
             reader.Completed += (obj, arg) => 
             {
                 
             };
+
             reader.DataReceived += (obj, arg) => 
             {
-               // new Thread(() => writeQueue.Enqueue(arg.Datablock) { }).Start();
+                new Thread(() =>
+                {
+                    var zipperBlock = zipper.Zip(arg.Datablock);
+                    writter.Write2(zipperBlock);
+                }).Start();
             };
 
             reader.Work();
-
-
-
-
             Console.WriteLine("Ended");
         }
 

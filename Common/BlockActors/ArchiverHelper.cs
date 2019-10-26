@@ -31,14 +31,14 @@
 
         #region Methods
 
-        public static int GetBlockLegth(MemoryStream ms)
+        public static int GetBlockLegth(Stream ms, long startPosition)
         {
             var count = 0;
             var offset = 0;
             try
             {
                 var array = new byte[XLEN_OFFSET + EXTRA_FIELD_LENGTH];
-                ms.Position = 0;
+                ms.Position = startPosition;
                 ms.Read(array, 0, XLEN_OFFSET + EXTRA_FIELD_LENGTH);
                 if ((array[FLG_OFFSET] & EXTRA_FIELD_OFFSET) != 0)
                 {

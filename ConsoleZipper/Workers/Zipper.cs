@@ -17,7 +17,7 @@
             {
                 Data = new byte[block.Count * 2],
             };
-            _archiver.Compress(block, datablock);
+            _archiver.Zip(block, datablock);
             return datablock;
         }
     }
@@ -37,7 +37,7 @@
             {
                 Data = new byte[block.Count * 2],
             };
-            _archiver.Decompress(block, datablock);
+            _archiver.Zip(block, datablock);
             return datablock;
         }
     }

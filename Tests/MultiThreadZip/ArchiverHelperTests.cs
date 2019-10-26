@@ -35,7 +35,7 @@
             for (var i = 10; i < length; i++)
                 srcArray[i] = (byte)r.Next();
 
-            var dataBlock = new Datablock
+            var dataBlock = new Datablock(1)
             {
                 Count = length,
                 Data = new byte[length + ArchiverHelper.EXTRA_FIELD_LENGTH]

@@ -7,9 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiThreadZip", "MultiThre
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{738E06E4-3C4F-46C4-90BB-1F72A2625AAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleZipper", "ConsoleZipper\ConsoleZipper.csproj", "{E99ACC0C-D88F-40CC-AC44-3C3F21401AD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleZipper", "ConsoleZipper\ConsoleZipper.csproj", "{E99ACC0C-D88F-40CC-AC44-3C3F21401AD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{9F258770-9B62-4EDD-97E5-BBA4CEDC139F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{9F258770-9B62-4EDD-97E5-BBA4CEDC139F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyZipper", "MyZipper\MyZipper.csproj", "{B5BCA4AB-5331-4B80-95F2-26CCA18DFE59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThreadZipper", "ThreadZipper\ThreadZipper.csproj", "{5E9A915E-072C-4E61-9880-7B4A548FEEAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{9F258770-9B62-4EDD-97E5-BBA4CEDC139F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F258770-9B62-4EDD-97E5-BBA4CEDC139F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F258770-9B62-4EDD-97E5-BBA4CEDC139F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5BCA4AB-5331-4B80-95F2-26CCA18DFE59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5BCA4AB-5331-4B80-95F2-26CCA18DFE59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5BCA4AB-5331-4B80-95F2-26CCA18DFE59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5BCA4AB-5331-4B80-95F2-26CCA18DFE59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E9A915E-072C-4E61-9880-7B4A548FEEAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E9A915E-072C-4E61-9880-7B4A548FEEAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E9A915E-072C-4E61-9880-7B4A548FEEAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E9A915E-072C-4E61-9880-7B4A548FEEAC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

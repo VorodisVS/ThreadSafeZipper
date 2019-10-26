@@ -21,12 +21,16 @@
 
         #region Methods
 
-        public bool Read(Datablock block, long startPosition, int count)
+        public bool Read(Datablock block, long startPosition, int count, bool forUnzip)
         {            
             using (FileStream fstream = File.OpenRead(_filepath))
             {
                 using (var wr = new BinaryReader(fstream))
                 {
+                    if (forUnzip)
+                    {
+                        count = ArchiverHelper.GetBlockLegth(fstream, startPosition);
+                    }
                     wr.BaseStream.Position = startPosition;
                     int realCount = wr.Read(block.Data, 0, count);
                     block.Count = realCount;

@@ -10,6 +10,7 @@
 
         public Datablock(int number)
         {
+            Data = new byte [2_000_000];
             Number = number;
         }
 

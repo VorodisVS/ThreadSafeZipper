@@ -36,7 +36,7 @@
                 {
                     Data = new byte[COUNT],
                 };
-                _reader.Read(block, _curByteIndex, COUNT);
+                _reader.Read(block, _curByteIndex, COUNT, true);
                 _curByteIndex += block.Count;
                 DataReceived?.Invoke(this, new DataReceivedEventArgs(block));
             }

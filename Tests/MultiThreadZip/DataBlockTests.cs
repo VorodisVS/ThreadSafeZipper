@@ -27,7 +27,7 @@ namespace Tests
             var r = new Random();
             var testData = new byte[count];
 
-            var testblock = new Datablock
+            var testblock = new Datablock(1)
             {
                 Data = testData,
                 Count = testData.Length
@@ -35,7 +35,7 @@ namespace Tests
 
             bw.Write(testblock, 0);
 
-            var testblock2 = new Datablock
+            var testblock2 = new Datablock(1)
             {
                 Data = new byte[count]
             };
@@ -71,26 +71,26 @@ namespace Tests
             r.NextBytes(testData);
 
             var ar = new BlockArchiver();
-            var testBlock = new Datablock
+            var testBlock = new Datablock(1)
             {
                 Data = testData,
                 Count = count
             };
-            var compBlock = new Datablock
+            var compBlock = new Datablock(1)
             {
                 Data = new byte[count + 30 * count],
                 Count = 0
             };
 
-            ar.Compress(testBlock, compBlock);
+            ar.Zip(testBlock, compBlock);
 
             var dear = new BlockDearchiver();
-            var decompr = new Datablock
+            var decompr = new Datablock(1)
             {
                 Data = new byte[count + 30 * count],
                 Count = 0
             };
-            dear.Decompress(compBlock, decompr);
+            dear.Zip(compBlock, decompr);
 
             byte[] actualData = decompr.Data;
             Array.Resize(ref actualData, decompr.Count);
