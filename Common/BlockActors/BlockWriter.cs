@@ -23,6 +23,7 @@
 
         public void Write(Datablock block, long startPosition)
         {
+            
             using (FileStream fstream = File.OpenWrite(_filepath))
             {
                 using (var wr = new BinaryWriter(fstream))

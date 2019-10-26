@@ -9,6 +9,7 @@ namespace ThreadZipper
     {
         private readonly FileInfo _srcFileInfo;
         private readonly FileInfo _trgFileInfo;
+        private readonly string _cmd;
 
         public ProgramManager(string srcFilePath, string trgFilePath, string cmd)
         {
@@ -21,15 +22,18 @@ namespace ThreadZipper
                 return;
             }
 
+            _cmd = cmd;
+
 
             if (File.Exists(trgFilePath)) File.Delete(trgFilePath);
             File.Create(trgFilePath);
             _trgFileInfo = new FileInfo(trgFilePath);
         }
 
-        public void Compress(bool isCompress)
+        public void Compress()
         {
-            var threads = new Thread[Environment.ProcessorCount * 3];
+            bool isCompress = _cmd.Equals("Compress");
+            var threads = new Thread[Environment.ProcessorCount];
 
             IDataCollection readCollection = new SafeDataCollection(1);
             IDataCollection writeCollection = new SafeDataCollection(2);
