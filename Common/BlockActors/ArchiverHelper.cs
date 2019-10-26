@@ -1,10 +1,16 @@
-﻿namespace Common
-{
-    using System;
-    using System.IO;
+﻿using System;
+using System.IO;
 
+namespace Common.BlockActors
+{
     public class ArchiverHelper
     {
+        #region Fields
+
+        private static readonly byte[] header = {XLEN_L, XLEN_H, SI1, SI2, LEN_L, LEN_H, 0, 0, 0};
+
+        #endregion
+
         #region Constants
 
         public const int EXTRA_FIELD_LENGTH = 9;
@@ -23,18 +29,11 @@
 
         #endregion
 
-        #region Fields
-
-        private static readonly byte[] header = { XLEN_L, XLEN_H, SI1, SI2, LEN_L, LEN_H, 0, 0, 0 };
-
-        #endregion
-
         #region Methods
 
-        public static int GetBlockLegth(Stream ms, long startPosition)
+        public static int GetBlockLength(Stream ms, long startPosition)
         {
             var count = 0;
-            var offset = 0;
             try
             {
                 var array = new byte[XLEN_OFFSET + EXTRA_FIELD_LENGTH];
@@ -42,7 +41,7 @@
                 ms.Read(array, 0, XLEN_OFFSET + EXTRA_FIELD_LENGTH);
                 if ((array[FLG_OFFSET] & EXTRA_FIELD_OFFSET) != 0)
                 {
-                    offset = XLEN_OFFSET;
+                    var offset = XLEN_OFFSET;
                     for (var i = 0; i < header.Length - 3; i++)
                         if (array[offset++] != header[i])
                             return 0;
@@ -62,8 +61,8 @@
         public static void GetHeaderWithLength(MemoryStream ms, Datablock trgBlock)
         {
             ms.Position = 0;
-            int sourceArrayLength = (int)ms.Length + EXTRA_FIELD_LENGTH;
-            byte[] array = trgBlock.Data;
+            var sourceArrayLength = (int) ms.Length + EXTRA_FIELD_LENGTH;
+            var array = trgBlock.Data;
 
             ms.Read(array, 0, 10);
             for (var i = 0; i < header.Length; i++)
@@ -71,9 +70,9 @@
 
             array[FLG_OFFSET] |= EXTRA_FIELD_OFFSET;
 
-            array[XLEN_OFFSET + 6] = (byte)sourceArrayLength;
-            array[XLEN_OFFSET + 7] = (byte)(sourceArrayLength >> 8);
-            array[XLEN_OFFSET + 8] = (byte)(sourceArrayLength >> 16);
+            array[XLEN_OFFSET + 6] = (byte) sourceArrayLength;
+            array[XLEN_OFFSET + 7] = (byte) (sourceArrayLength >> 8);
+            array[XLEN_OFFSET + 8] = (byte) (sourceArrayLength >> 16);
 
             ms.Read(array, DATA_OFFSET, sourceArrayLength - DATA_OFFSET);
 

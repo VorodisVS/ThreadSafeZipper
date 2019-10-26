@@ -19,7 +19,7 @@ namespace Tests
         public void Setup()
         {
             
-            _zippedFilePath = Directory.GetCurrentDirectory() + @"\testVeeamZipped";
+            _zippedFilePath = /*Directory.GetCurrentDirectory() +*/ @"e:\testVeeamZipped";
             
             _unzippedFilePath = Directory.GetCurrentDirectory() + @"\testVeeamUnzipped";
         }
@@ -48,8 +48,6 @@ namespace Tests
         public void RandomFileTest(int srcFileLength)
         {
             _srcFilepath = RandomFileHelper.CreateTempFile(srcFileLength);
-            _zippedFilePath = RandomFileHelper.CreateTempFile(1);
-            GC.Collect();
             ProgramManager _manager = new ProgramManager(_srcFilepath, _zippedFilePath, "Compress");
             _manager.Compress();
 

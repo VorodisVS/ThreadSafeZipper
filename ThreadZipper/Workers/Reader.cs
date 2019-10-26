@@ -1,15 +1,15 @@
-﻿using System;
-using System.IO;
-using System.Threading;
-using Common;
+﻿using Common.BlockActors;
 
 namespace ThreadZipper.Workers
 {
+    using System.IO;
+    using System.Threading;
+    using Common;
+
     public class Reader
     {
         private BlockReader _blockReader;
         private int _curBlockNumber;
-
         private long _curByteIndex;
         private readonly FileInfo _fileInfo;
         private readonly IDataCollection _internalCollection;
@@ -22,26 +22,22 @@ namespace ThreadZipper.Workers
 
         public void Start(bool forUnzip)
         {
-           // Console.WriteLine("Reader Started");
             _blockReader = new BlockReader(_fileInfo.FullName);
 
             while (_fileInfo.Length > _curByteIndex)
             {
                 if (_internalCollection.Count > 30)
                 {
-              //      Console.WriteLine("Reader Waiting");
-                    Thread.Sleep(1000);
+                    Thread.Sleep(100);
                     continue;
                 }
 
                 var block = new Datablock(_curBlockNumber);
-                _blockReader.Read(block, _curByteIndex, 1000000, forUnzip);
+                _blockReader.Read(block, _curByteIndex, Datablock.MAX_BLOCK_SIZE, forUnzip);
                 _curBlockNumber++;
                 _curByteIndex += block.Count;
                 _internalCollection.Enqueue(block);
             }
-
-           // Console.WriteLine("Reader Stopped");
         }
     }
 }

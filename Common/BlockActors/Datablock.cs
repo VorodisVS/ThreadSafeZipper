@@ -1,7 +1,12 @@
-﻿namespace Common
+﻿namespace Common.BlockActors
 {
     public class Datablock
     {
+        #region Constants
+
+        public const int MAX_BLOCK_SIZE = 1_000_000;
+
+        #endregion
         #region Properties
 
         public int Count { get; set; }
@@ -10,10 +15,10 @@
 
         public Datablock(int number)
         {
-            Data = new byte [2_000_000];
+            Data = new byte [MAX_BLOCK_SIZE * 2];
             Number = number;
         }
 
-        #endregion
+        #endregion Properties
     }
 }

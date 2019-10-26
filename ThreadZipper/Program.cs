@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace ThreadZipper
+﻿namespace ThreadZipper
 {
+    using System;
+
     internal class Program
     {
         private static void Main(string[] args)

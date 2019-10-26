@@ -1,10 +1,10 @@
-﻿using System;
-using System.IO;
-using System.Threading;
-using ThreadZipper.Workers;
-
-namespace ThreadZipper
+﻿namespace ThreadZipper
 {
+    using System;
+    using System.IO;
+    using System.Threading;
+    using Workers;
+
     public class ProgramManager
     {
         private readonly FileInfo _srcFileInfo;
@@ -35,14 +35,14 @@ namespace ThreadZipper
             bool isCompress = _cmd.Equals("Compress");
             var threads = new Thread[Environment.ProcessorCount];
 
-            IDataCollection readCollection = new SafeDataCollection(1);
-            IDataCollection writeCollection = new SafeDataCollection(2);
+            IDataCollection readCollection = new SafeDataCollection();
+            IDataCollection writeCollection = new SafeDataCollection();
 
             var reader = new Reader(readCollection, _srcFileInfo);
             var writer = new Writer(writeCollection, _trgFileInfo);
             var zippers = new Zipper[threads.Length - 2];
             for (var i = 0; i < threads.Length - 2; i++)
-                zippers[i] = new Zipper(readCollection, writeCollection, isCompress, i);
+                zippers[i] = new Zipper(readCollection, writeCollection, isCompress);
 
             threads[0] = new Thread(() => { reader.Start(!isCompress); });
             threads[1] = new Thread(() => { writer.Start(); });
