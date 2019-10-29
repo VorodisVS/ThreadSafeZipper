@@ -5,14 +5,17 @@
 
     public class RandomFileHelper
     {
+        private const long MAX_RANDOM_DATA_SIZE = 5_000_000;
+
         public static string CreateTempFile(long size)
         {
             var path = Path.GetTempFileName();
 
+            var chunkCount = size / MAX_RANDOM_DATA_SIZE;
+
             byte[] data = new byte[size];
             Random r = new Random();
             r.NextBytes(data);
-
             WriteToFile(path, data);
 
             return path;

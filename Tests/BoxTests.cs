@@ -19,9 +19,8 @@ namespace Tests
         public void Setup()
         {
             
-            _zippedFilePath = /*Directory.GetCurrentDirectory() +*/ @"e:\testVeeamZipped";
-            
-            _unzippedFilePath = Directory.GetCurrentDirectory() + @"\testVeeamUnzipped";
+            _zippedFilePath = Path.GetTempPath() + @"testVeeamZipped";            
+            _unzippedFilePath = Path.GetTempPath() + @"testVeeamUnzipped";
         }
 
         [TearDown]
@@ -44,15 +43,32 @@ namespace Tests
         [TestCase(100)]
         [TestCase(10_000)]
         [TestCase(1_000_000)]
-       // [TestCase(12_345_6791_234)]
-        public void RandomFileTest(int srcFileLength)
+        [TestCase(12_345_6791_234)]
+        public void RandomFileTest(long srcFileLength)
         {
             _srcFilepath = RandomFileHelper.CreateTempFile(srcFileLength);
             ProgramManager _manager = new ProgramManager(_srcFilepath, _zippedFilePath, "Compress");
-            _manager.Compress();
+
+            using (var srcStream = File.OpenRead(_srcFilepath))
+            {
+                using (var zipStream = File.OpenWrite(_zippedFilePath))
+                {
+                    _manager.Compress(srcStream, zipStream);
+                }
+            }
+
+            
 
             _manager = new ProgramManager(_zippedFilePath, _unzippedFilePath, "Decompress");
-            _manager.Compress();
+
+
+            using (var zipStream = File.OpenRead(_zippedFilePath))
+            {
+                using (var unzipStream = File.OpenWrite(_unzippedFilePath))
+                {
+                    _manager.Compress(zipStream, unzipStream);
+                }
+            }           
 
             FileInfo srcFileInfo = new FileInfo(_srcFilepath);
             FileInfo resultFileInfo = new FileInfo(_unzippedFilePath);

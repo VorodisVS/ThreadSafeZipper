@@ -25,12 +25,12 @@
             _cmd = cmd;
 
 
-            if (File.Exists(trgFilePath)) File.Delete(trgFilePath);
-            File.Create(trgFilePath);
-            _trgFileInfo = new FileInfo(trgFilePath);
+           /// if (File.Exists(trgFilePath)) File.Delete(trgFilePath);
+           /// File.Create(trgFilePath);
+            /////_trgFileInfo = new FileInfo(trgFilePath);
         }
 
-        public void Compress()
+        public void Compress(Stream readStream, Stream writeStream)
         {
             bool isCompress = _cmd.Equals("Compress");
             var threads = new Thread[Environment.ProcessorCount];
@@ -38,14 +38,14 @@
             IDataCollection readCollection = new SafeDataCollection();
             IDataCollection writeCollection = new SafeDataCollection();
 
-            var reader = new Reader(readCollection, _srcFileInfo);
-            var writer = new Writer(writeCollection, _trgFileInfo);
+            var reader = new Reader(readCollection);
+            var writer = new Writer(writeCollection);
             var zippers = new Zipper[threads.Length - 2];
             for (var i = 0; i < threads.Length - 2; i++)
                 zippers[i] = new Zipper(readCollection, writeCollection, isCompress);
 
-            threads[0] = new Thread(() => { reader.Start(!isCompress); });
-            threads[1] = new Thread(() => { writer.Start(); });
+            threads[0] = new Thread(() => { reader.Start(readStream, !isCompress);});
+            threads[1] = new Thread(() => { writer.Start(writeStream); });
 
             for (var i = 2; i < threads.Length; i++)
             {
@@ -62,7 +62,7 @@
             for (var i = 2; i < threads.Length; i++) threads[i].Join();
 
             writer.Stop();
-
+            writeCollection.ReleaseAllWaiters(threads.Length);
             threads[1].Join();
         }
     }

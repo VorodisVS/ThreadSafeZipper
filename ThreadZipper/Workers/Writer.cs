@@ -9,7 +9,6 @@ namespace ThreadZipper.Workers
 
     public class Writer
     {
-        private readonly BlockWriter _blockWriter;
         private int _curBlockNumber;
         private long _curByteIndex;
 
@@ -19,14 +18,13 @@ namespace ThreadZipper.Workers
         private bool _stopDetected;
 
 
-        public Writer(IDataCollection collection, FileInfo info)
+        public Writer(IDataCollection collection)
         {
             _internalCollection = collection;
-            _delayedBlocks = new SortedList<int, Datablock>();
-            _blockWriter = new BlockWriter(info.FullName);
+            _delayedBlocks = new SortedList<int, Datablock>();           
         }
 
-        public void Start()
+        public void Start(Stream stream)
         {
             while (!_stopDetected || _internalCollection.Count > 0)
             {
@@ -38,16 +36,16 @@ namespace ThreadZipper.Workers
                 }
                 else
                 {
-                    _blockWriter.Write(block, _curByteIndex);
+                    BlockWriter.Write(stream, block, _curByteIndex);
                     _curBlockNumber++;
                     _curByteIndex += block.Count;
                 }
 
-                WriteDelayed();
+                WriteDelayed(stream);
             }
         }
 
-        private void WriteDelayed()
+        private void WriteDelayed(Stream stream)
         {
             if (_delayedBlocks.Count == 0)
                 return;
@@ -56,12 +54,12 @@ namespace ThreadZipper.Workers
             if (_curBlockNumber != firstBlock.Number)
                 return;
 
-            _blockWriter.Write(firstBlock, _curByteIndex);
+            BlockWriter.Write(stream, firstBlock, _curByteIndex);
             _curBlockNumber++;
 
             _curByteIndex += firstBlock.Count;
             _delayedBlocks.RemoveAt(0);
-            WriteDelayed();
+            WriteDelayed(stream);
         }
 
         public void Stop()
