@@ -1,19 +1,16 @@
-﻿using Common.BlockActors;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Common.BlockActors;
 
-namespace ThreadZipper.Workers
+namespace Common.Workers
 {
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using Common;
-
     public class Writer
     {
-        private int _curBlockNumber;
-        private long _curByteIndex;
-
         private readonly SortedList<int, Datablock> _delayedBlocks;
         private readonly IDataCollection _internalCollection;
+        private int _curBlockNumber;
+        private long _curByteIndex;
 
         private bool _stopDetected;
 
@@ -21,7 +18,7 @@ namespace ThreadZipper.Workers
         public Writer(IDataCollection collection)
         {
             _internalCollection = collection;
-            _delayedBlocks = new SortedList<int, Datablock>();           
+            _delayedBlocks = new SortedList<int, Datablock>();
         }
 
         public void Start(Stream stream)
@@ -29,6 +26,9 @@ namespace ThreadZipper.Workers
             while (!_stopDetected || _internalCollection.Count > 0)
             {
                 var block = _internalCollection.Dequeue();
+
+                if (block == null)
+                    continue;
 
                 if (_curBlockNumber != block.Number)
                 {

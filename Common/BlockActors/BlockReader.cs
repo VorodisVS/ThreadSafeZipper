@@ -27,7 +27,7 @@ namespace Common.BlockActors
             {
                 using (var wr = new BinaryReader(fstream))
                 {
-                    if (forUnzip) preferredCount = ArchiverHelper.GetBlockLength(wr, startPosition);
+                    if (forUnzip) preferredCount = ArchiverHelper.GetBlockLength(fstream, startPosition);
                     wr.BaseStream.Position = startPosition;
                     var realCount = wr.Read(block.Data, 0, preferredCount);
                     block.Count = realCount;
@@ -39,14 +39,10 @@ namespace Common.BlockActors
 
         public static bool Read(Stream stream, Datablock block, long startPosition, int preferredCount, bool forUnzip)
         {
-            using (var wr = new BinaryReader(stream))
-            {
-                if (forUnzip) preferredCount = ArchiverHelper.GetBlockLength(wr, startPosition);
-                wr.BaseStream.Position = startPosition;
-                var realCount = wr.Read(block.Data, 0, preferredCount);
-                block.Count = realCount;
-            }
-
+            if (forUnzip) preferredCount = ArchiverHelper.GetBlockLength(stream, startPosition);
+            stream.Position = startPosition;
+            var realCount = stream.Read(block.Data, 0, preferredCount);
+            block.Count = realCount;
             return true;
         }
 

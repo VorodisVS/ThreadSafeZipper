@@ -1,24 +1,23 @@
-﻿namespace ThreadZipper.Workers
+﻿using System.IO;
+using System.Threading;
+using Common.BlockActors;
+
+namespace Common.Workers
 {
-    using System.IO;
-    using System.Threading;
-    using Common.BlockActors;
-
-
     public class Reader
-    {      
+    {
+        private readonly IDataCollection _internalCollection;
         private int _curBlockNumber;
         private long _curByteIndex;
-        private readonly IDataCollection _internalCollection;
 
         public Reader(IDataCollection collection)
-        {            
+        {
             _internalCollection = collection;
         }
 
         public void Start(Stream stream, bool forUnzip)
-        {            
-            long fullLength = stream.Length;
+        {
+            var fullLength = stream.Length;
             while (fullLength > _curByteIndex)
             {
                 if (_internalCollection.Count > 30)

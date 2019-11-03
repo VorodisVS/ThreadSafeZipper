@@ -31,13 +31,13 @@ namespace Common.BlockActors
 
         #region Methods
 
-        public static int GetBlockLength(BinaryReader ms, long startPosition)
+        public static int GetBlockLength(Stream ms, long startPosition)
         {
             var count = 0;
             try
             {
                 var array = new byte[XLEN_OFFSET + EXTRA_FIELD_LENGTH];
-                ms.BaseStream.Position = startPosition;
+                ms.Position = startPosition;
                 ms.Read(array, 0, XLEN_OFFSET + EXTRA_FIELD_LENGTH);
                 if ((array[FLG_OFFSET] & EXTRA_FIELD_OFFSET) != 0)
                 {

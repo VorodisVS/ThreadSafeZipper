@@ -1,11 +1,9 @@
-﻿using Common.BlockActors;
+﻿using System.Collections.Generic;
+using System.Threading;
+using Common.BlockActors;
 
-namespace ThreadZipper.Workers
+namespace Common.Workers
 {
-    using System.Collections.Generic;
-    using System.Threading;
-    using Common;
-
     public interface IDataCollection
     {
         int Count { get; }
@@ -21,14 +19,14 @@ namespace ThreadZipper.Workers
 
         private readonly AutoResetEvent _resetEvent;
 
-        public int Count => _queue.Count;
-
         public SafeDataCollection()
         {
             _locker = new object();
             _queue = new Queue<Datablock>();
             _resetEvent = new AutoResetEvent(false);
         }
+
+        public int Count => _queue.Count;
 
         public void Enqueue(Datablock block)
         {
@@ -48,8 +46,10 @@ namespace ThreadZipper.Workers
 
             lock (_locker)
             {
-                if (!_queue.TryDequeue(out var block))
+                if (_queue.Count == 0)
                     return null;
+
+                var block = _queue.Dequeue();
 
                 if (_queue.Count != 0)
                     _resetEvent.Set();

@@ -7,6 +7,7 @@
         public const int MAX_BLOCK_SIZE = 1_000_000;
 
         #endregion
+
         #region Properties
 
         public int Count { get; set; }

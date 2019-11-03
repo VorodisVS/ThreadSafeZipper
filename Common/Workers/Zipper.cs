@@ -1,15 +1,11 @@
 ﻿using Common.BlockActors;
 
-namespace ThreadZipper.Workers
+namespace Common.Workers
 {
-    using System;
-    using Common;
-
     public class Zipper
     {
         private readonly IDataCollection _readCollection;
         private readonly IDataCollection _writeCollection;
-
         private readonly IBlockZipper _zipper;
 
         private bool _stopDetected;

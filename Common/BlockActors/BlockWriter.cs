@@ -1,7 +1,7 @@
-﻿namespace Common.BlockActors
-{
-    using System.IO;
+﻿using System.IO;
 
+namespace Common.BlockActors
+{
     public class BlockWriter
     {
         #region Fields
@@ -35,11 +35,8 @@
 
         public static void Write(Stream stream, Datablock block, long startPosition)
         {
-            using (var wr = new BinaryWriter(stream))
-            {
-                wr.BaseStream.Position = startPosition;
-                wr.Write(block.Data, 0, block.Count);
-            }
+            stream.Position = startPosition;
+            stream.Write(block.Data, 0, block.Count);
         }
 
         #endregion
